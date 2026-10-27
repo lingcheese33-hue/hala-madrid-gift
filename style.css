@@ -14,23 +14,24 @@
     justify-content: center;
     align-items: center;
     font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    
+    /* 背景設定，確保不會有黑塊 */
+    background-color: #05080f;
     background-image: url('stadium-bg.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; 
+    
     position: relative;
     overflow: hidden;
-    
-    /* 🌟 修改 3：用背景色填滿底部，解決 Safari 底部橫線問題 */
-    background-color: #05080f; 
-    padding: 40px 0 140px 0; 
+    /* 🌟 解決文字太遠：將底部 padding 縮小 */
+    padding: 20px 0 80px 0; 
   }
   
   body::before {
     content: "";
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 0%, rgba(5, 8, 15, 0.95) 80%);
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 0%, rgba(5, 8, 15, 0.9) 80%);
     z-index: 0; 
     pointer-events: none;
   }
@@ -45,13 +46,12 @@
     text-align: center;
     line-height: 1.8; 
     padding: 0 1.5rem; 
-    margin-bottom: -20px; 
+    margin-bottom: -10px; 
     letter-spacing: 2px; 
     color: #FFFFFF; 
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
-    opacity: 0; 
-    transform: translateY(-10px); 
-    animation: fadeInDown 1s ease forwards;
+    opacity: 1; 
+    transform: translateY(0);
   }
   
   .header-text span {
@@ -74,10 +74,8 @@
      ========================================== */
   .hint-container {
     position: absolute;
-    
-    /* 🌟 修改 2：把文字往上提，拉近與熊的距離 (手機端用 60px) */
-    bottom: 60px; 
-    
+    /* 🌟 解決文字太遠：往上調整到 30px */
+    bottom: 30px; 
     left: 0;
     width: 100%;
     height: 80px; 
@@ -171,19 +169,17 @@
     max-width: 450px;
     aspect-ratio: 3 / 4;
     
-    /* 邊緣羽化 */
     -webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 85%);
     mask-image: radial-gradient(ellipse at center, black 50%, transparent 85%);
     
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    opacity: 1;
+    transform: translateY(0);
     
-    animation: 
-      popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards,
-      floating 6s ease-in-out infinite 1.2s;
+    animation: floating 6s ease-in-out infinite 1.2s;
       
     pointer-events: auto;
-    touch-action: none;
+    /* 🌟 解決手機端滑動時頁面跟著跑 */
+    touch-action: none; 
   }
   
   .reveal-hover__image {
@@ -192,7 +188,8 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transform: scale(1.03); 
+    /* 🌟 解決重影：移除 scale，兩張圖 100% 重合 */
+    transform: none; 
   }
   
   .reveal-hover__image--base {
@@ -202,6 +199,7 @@
   
   .reveal-hover__image--overlay {
     position: absolute;
+    top: 0; left: 0;
     z-index: 1;
     inset: 0;
     pointer-events: none;
@@ -225,25 +223,7 @@
     will-change: -webkit-mask-image, mask-image;
   }
   
-  /* 手機端專用 Canvas 層設定 */
-  .mobile-scratch-canvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 5;
-    display: none; /* 預設隱藏 */
-    pointer-events: auto;
-  }
-  
-  /* 手機端：隱藏電腦端手電筒圖層，顯示 Canvas 遮罩層 */
-  @media (hover: none), (pointer: coarse) {
-    .reveal-hover__image--overlay {
-      display: none;
-    }
-    .mobile-scratch-canvas {
-      display: block;
-    }
-  }
+  /* 🌟 解決手機端無手電筒：刪除 @media 隱藏規則，讓手機共用遮罩！ */
   
   /* ==========================================
      5. 重置按鈕
@@ -255,7 +235,7 @@
     font-size: 1.1rem;
     color: #86868b;
     opacity: 0;
-    pointer-events: none; 
+    pointer-events: auto; 
     cursor: pointer;
     transition: opacity 0.5s ease, color 0.3s ease, transform 0.3s ease;
     transform: translateY(2px);
@@ -263,7 +243,6 @@
   
   .reset-btn.show {
     opacity: 0.6; 
-    pointer-events: auto; 
   }
   
   .reset-btn:hover {
@@ -275,9 +254,11 @@
   /* ==========================================
      6. 動畫 Keyframes
      ========================================== */
-  @keyframes fadeInDown { to { opacity: 1; transform: translateY(0); } }
-  @keyframes popIn { to { opacity: 1; transform: translateY(0) scale(1); } }
-  @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @keyframes floating { 
+    0%, 100% { transform: translateY(0); } 
+    50% { transform: translateY(-4px); } 
+  }
+  
   @keyframes heartPulse {
     0%, 100% { transform: scale(1); text-shadow: 0 0 4px rgba(117, 170, 219, 0.3); opacity: 0.7; }
     50% { transform: scale(1.15); text-shadow: 0 0 12px rgba(193, 154, 107, 0.6), 0 0 20px rgba(255, 255, 255, 0.4); opacity: 1; }
