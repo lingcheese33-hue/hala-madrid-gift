@@ -117,7 +117,6 @@
     transform: translate(-50%, -50%) translateY(15px); 
     opacity: 0;
     transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,7 +136,6 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); 
   }
   
-  /* 🌟 愛心微光：初始隱藏，等字幕出來後才浮現 */
   .glow-heart {
     display: inline-block;
     margin-left: 4px;
@@ -146,7 +144,6 @@
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   
-  /* 當 .phase-2 加上 .show 時，觸發愛心淡入與微光 */
   .phase-2.show .glow-heart {
     opacity: 1;
     transform: scale(1);
@@ -179,6 +176,7 @@
       floating 6s ease-in-out infinite 1.2s;
       
     pointer-events: auto;
+    touch-action: none; /* 阻止手機滑動頁面 */
   }
   
   .reveal-hover__image {
@@ -220,9 +218,23 @@
     will-change: -webkit-mask-image, mask-image;
   }
   
+  /* 🌟 手機端專用 Canvas 層設定 */
+  .mobile-scratch-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 5;
+    display: none; /* 預設隱藏 */
+    pointer-events: auto;
+  }
+  
+  /* 手機端：隱藏電腦端手電筒圖層，顯示 Canvas 遮罩層 */
   @media (hover: none), (pointer: coarse) {
     .reveal-hover__image--overlay {
       display: none;
+    }
+    .mobile-scratch-canvas {
+      display: block;
     }
   }
   
@@ -256,28 +268,10 @@
   /* ==========================================
      6. 動畫 Keyframes
      ========================================== */
-  @keyframes fadeInDown { 
-    to { opacity: 1; transform: translateY(0); } 
-  }
-  
-  @keyframes popIn { 
-    to { opacity: 1; transform: translateY(0) scale(1); } 
-  }
-  
-  @keyframes floating {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); } 
-  }
-  
+  @keyframes fadeInDown { to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
   @keyframes heartPulse {
-    0%, 100% {
-      transform: scale(1);
-      text-shadow: 0 0 4px rgba(117, 170, 219, 0.3);
-      opacity: 0.7;
-    }
-    50% {
-      transform: scale(1.15);
-      text-shadow: 0 0 12px rgba(193, 154, 107, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
-      opacity: 1;
-    }
+    0%, 100% { transform: scale(1); text-shadow: 0 0 4px rgba(117, 170, 219, 0.3); opacity: 0.7; }
+    50% { transform: scale(1.15); text-shadow: 0 0 12px rgba(193, 154, 107, 0.6), 0 0 20px rgba(255, 255, 255, 0.4); opacity: 1; }
   }
