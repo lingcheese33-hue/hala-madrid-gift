@@ -263,14 +263,17 @@ body::before {
     object-position: center; 
   }
 
+  @media (max-width: 768px) {
+  /* ... 前面的 body 保持不變 ... */
+
   .hint-container {
-    /* 文字固定在熊下方 */
     margin: 10px 0 0 0; 
     flex-shrink: 0; 
-    
-    /* 因為改用 flex，這裡要取消絕對定位，否則會亂跑 */
     position: relative; 
     bottom: auto; 
     height: auto;
+    
+    /* 🌟 新增這行：數字越大，整組東西越往上 */
+    margin-bottom: 60px; 
   }
 }
