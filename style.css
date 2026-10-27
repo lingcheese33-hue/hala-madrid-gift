@@ -223,7 +223,7 @@
   @media (max-width: 768px) {
     body {
       /* 整組往下推 */
-      padding-top: 50px; 
+      padding-top: 30px; 
     }
   
     /* 🌟 手機端標題單獨微調 (加在這裡) */
