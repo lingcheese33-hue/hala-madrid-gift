@@ -218,43 +218,48 @@ body::before {
 }
 
 /* ==========================================
-   🌟 手機端終極鎖死版 (解決動態網址列造成的位移)
+   🌟 手機端專用微調：還原大熊、鎖死位置
    ========================================== */
 @media (max-width: 768px) {
   body {
-    /* 改用 100dvh，這會鎖定手機動態網址列縮放後的真實高度 */
+    /* 使用 100dvh 防止網址列伸縮導致的跳動 */
     min-height: 100dvh; 
-    /* 鎖定上下留白，不讓版面亂跳 */
+    
+    /* 維持你原本覺得好看的上下留白 */
     padding: 120px 0 80px 0; 
-    /* 強制從頂部開始排版，不依賴置中 */
+    
+    /* 讓它從上往下排，不要把東西擠在中間 */
     justify-content: flex-start; 
+  }
+
+  .header-text {
+    margin-top: 30px; /* 保持標題的位置 */
+    flex-shrink: 0;   /* 不准被壓縮 */
+  }
+
+  .hint-container {
+    margin-top: -20px; /* 保持文字與熊的距離 */
+    flex-shrink: 0;    /* 不准被壓縮 */
   }
 
   .reveal-hover {
     width: 100vw; 
     max-width: 100vw; 
     
-    /* 🌟 關鍵 1：鎖死熊的最大高度，避免它因為網址列縮放而忽大忽小 */
-    max-height: 60dvh; 
+    /* 🌟 關鍵：移除所有高度限制！讓它自然展現原本的 3:4 大圖 */
+    max-height: none; 
     
-    aspect-ratio: 3 / 4; 
     border-radius: 0; 
     margin: 0; 
     
-    /* 🌟 關鍵 2：加上 flex-shrink: 0，告訴瀏覽器「絕對不准壓縮我」 */
+    /* 🌟 關鍵：加上 flex-shrink: 0，強迫瀏覽器不准把熊縮小 */
     flex-shrink: 0; 
   }
 
   .reveal-hover__image {
-    width: 100%;
+    width: 100vw;
     height: 100%;
-    object-fit: cover; 
+    object-fit: cover;
     object-position: center; 
-  }
-
-  .hint-container {
-    margin-top: -20px; 
-    /* 確保文字絕對不會被擠壓 */
-    flex-shrink: 0; 
   }
 }
