@@ -15,34 +15,21 @@
 
   <!-- 互動卡片區域 -->
   <figure class="reveal-hover" data-reveal-hover data-reveal-radius="200">
-    <img
-      class="reveal-hover__image reveal-hover__image--base"
-      src="barca-bear.png"
-      alt="Barca Bear"
-      width="800"
-      height="1067"
-    />
-    <img
-      class="reveal-hover__image reveal-hover__image--overlay"
-      src="madrid-bear.png"
-      alt=""
-      width="800"
-      height="1067"
-      aria-hidden="true"
-    />
+    <!-- 底層：皇馬熊 -->
+    <img class="reveal-hover__image reveal-hover__image--base" src="madrid-bear.png" alt="Madrid Bear" width="800" height="1067" />
+    
+    <!-- 電腦端頂層：巴薩熊 (CSS 遮罩) -->
+    <img class="reveal-hover__image reveal-hover__image--overlay" src="barca-bear.png" alt="Barca Bear" width="800" height="1067" aria-hidden="true" />
+
+    <!-- 🌟 手機端頂層：Canvas 遮罩層 (預設隱藏) -->
+    <canvas id="mobile-scratch-canvas" class="mobile-scratch-canvas"></canvas>
   </figure>
 
   <!-- 底部文字區域 -->
   <div class="hint-container" id="secret-text">
-    <div class="phase-1" id="phase-1">
-      👆 噓，今晚成功混入。Hala Madrid 🤍
-    </div>
-    
+    <div class="phase-1" id="phase-1">👆 噓，今晚成功混入。Hala Madrid 🤍</div>
     <div class="phase-2" id="phase-2">
-      <div class="line-1">
-        終場哨響，結果不會因為你穿著什麼而改變<span class="glow-heart">🤍</span>
-      </div>
-      <!-- 重置按鈕跟在文字後面 -->
+      <div class="line-1">終場哨響，結果不會因為你穿著什麼而改變<span class="glow-heart">🤍</span></div>
       <button id="reset-btn" class="reset-btn" aria-label="重新體驗">🔄</button>
     </div>
   </div>
