@@ -3,7 +3,6 @@ function initRevealHover(element) {
 
   const secretTextEl = document.getElementById('secret-text');
   const phase1El = document.getElementById('phase-1');
-  const phase2El = document.getElementById('phase-2');
   const headerTextEl = document.querySelector('.header-text');
   const resetBtn = document.getElementById('reset-btn');
 
@@ -59,8 +58,7 @@ function initRevealHover(element) {
     hasTriggeredSecret = false;
     clearTimeout(resetTimeout);
     
-    if (phase1El) phase1El.classList.remove('show', 'hide');
-    if (phase2El) phase2El.classList.remove('show');
+    if (phase1El) phase1El.classList.remove('show');
     if (headerTextEl) headerTextEl.classList.remove('fade-out');
     if (resetBtn) resetBtn.classList.remove('show');
     
@@ -75,27 +73,19 @@ function initRevealHover(element) {
     if (hasTriggeredSecret || !secretTextEl) return;
     hasTriggeredSecret = true;
 
+    // 顯示第一句台詞
     if (phase1El) phase1El.classList.add('show');
 
+    // 延遲 2 秒後，讓標題淡出、顯示按鈕
     resetTimeout = setTimeout(() => {
-      if (phase1El) {
-        phase1El.classList.remove('show');
-        phase1El.classList.add('hide');
-      }
-      if (phase2El) phase2El.classList.add('show');
       if (headerTextEl) headerTextEl.classList.add('fade-out');
-
-      setTimeout(() => {
-        if (resetBtn) resetBtn.classList.add('show');
-      }, 2000); 
-    }, 5000);
+      if (resetBtn) resetBtn.classList.add('show');
+    }, 2000); 
   };
 
   if (resetBtn) {
     resetBtn.addEventListener('click', resetExperience);
   }
-
-  // === 🌟 核心修改：刪除手機端 return，統一由以下邏輯處理 ===
 
   // 1. 滑鼠事件
   element.addEventListener("pointerenter", (e) => {
@@ -128,7 +118,7 @@ function initRevealHover(element) {
     schedule();
   });
 
-  // 2. 手機觸控事件 (完全共用遮罩邏輯)
+  // 2. 手機觸控事件
   element.addEventListener("touchstart", (e) => {
     if (e.cancelable) e.preventDefault(); 
     const touch = e.touches[0];
