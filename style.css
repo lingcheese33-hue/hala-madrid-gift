@@ -185,13 +185,6 @@
     will-change: -webkit-mask-image, mask-image;
   }
   
-  /* 手機端專用：取消四周的羽化遮罩 */
-  @media (max-width: 768px) {
-    .reveal-hover {
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
-  }
   
   /* ==========================================
      5. 重置按鈕
