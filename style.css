@@ -15,7 +15,6 @@
     align-items: center;
     font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
     
-    /* 背景設定，確保不會有黑塊 */
     background-color: #05080f;
     background-image: url('stadium-bg.jpg');
     background-size: cover;
@@ -23,7 +22,6 @@
     
     position: relative;
     overflow: hidden;
-    /* 🌟 解決文字太遠：將底部 padding 縮小 */
     padding: 20px 0 80px 0; 
   }
   
@@ -74,7 +72,6 @@
      ========================================== */
   .hint-container {
     position: absolute;
-    /* 🌟 解決文字太遠：往上調整到 30px */
     bottom: 30px; 
     left: 0;
     width: 100%;
@@ -88,6 +85,7 @@
     pointer-events: none;
   }
   
+  /* 🌟 修改：讓文字跟按鈕可以水平並排 */
   .phase-1 {
     position: absolute;
     top: 50%;
@@ -101,6 +99,11 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     opacity: 0;
     transition: opacity 0.8s ease, transform 0.8s ease;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
   
   .phase-1.show {
@@ -108,58 +111,10 @@
     transform: translate(-50%, -50%) translateY(0);
   }
   
-  .phase-1.hide {
-    opacity: 0;
-    transform: translate(-50%, -50%) translateY(-10px);
-  }
-  
-  .phase-2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    transform: translate(-50%, -50%) translateY(15px); 
-    opacity: 0;
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .phase-2.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) translateY(0);
-  }
-  
-  .phase-2 .line-1 {
-    font-size: 1rem;         
-    font-weight: 600;        
-    letter-spacing: 2px;
-    color: #FFFFFF;          
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); 
-  }
-  
-  .glow-heart {
-    display: inline-block;
-    margin-left: 4px;
-    opacity: 0;
-    transform: scale(0.5); 
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  
-  .phase-2.show .glow-heart {
-    opacity: 1;
-    transform: scale(1);
-    animation: heartPulse 2.5s ease-in-out infinite 1s; 
-  }
-/* ==========================================
-   手機端專用：拉近底部文字與熊的距離
-   ========================================== */
-   @media (max-width: 768px) {
+  /* 手機端專用：拉近底部文字與熊的距離 */
+  @media (max-width: 768px) {
     .hint-container {
-      /* 🌟 在手機端把 bottom 數值調大，文字就會往上靠近熊 */
-      bottom: 80px; /* 你可以根據喜好調整這個數字，越大越靠近熊 */
+      bottom: 80px;
     }
   }
   
@@ -187,7 +142,6 @@
     animation: floating 6s ease-in-out infinite 1.2s;
       
     pointer-events: auto;
-    /* 🌟 解決手機端滑動時頁面跟著跑 */
     touch-action: none; 
   }
   
@@ -197,7 +151,6 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    /* 🌟 解決重影：移除 scale，兩張圖 100% 重合 */
     transform: none; 
   }
   
@@ -232,7 +185,13 @@
     will-change: -webkit-mask-image, mask-image;
   }
   
-  /* 🌟 解決手機端無手電筒：刪除 @media 隱藏規則，讓手機共用遮罩！ */
+  /* 手機端專用：取消四周的羽化遮罩 */
+  @media (max-width: 768px) {
+    .reveal-hover {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
   
   /* ==========================================
      5. 重置按鈕
@@ -266,9 +225,4 @@
   @keyframes floating { 
     0%, 100% { transform: translateY(0); } 
     50% { transform: translateY(-4px); } 
-  }
-  
-  @keyframes heartPulse {
-    0%, 100% { transform: scale(1); text-shadow: 0 0 4px rgba(117, 170, 219, 0.3); opacity: 0.7; }
-    50% { transform: scale(1.15); text-shadow: 0 0 12px rgba(193, 154, 107, 0.6), 0 0 20px rgba(255, 255, 255, 0.4); opacity: 1; }
   }
