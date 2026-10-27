@@ -21,25 +21,54 @@ function initRevealHover(element) {
       clientX: 0, clientY: 0, inside: false, frame: 0,
     };
   
-    // 🌟 手機端專用：用 Canvas 實作手電筒遮罩
+    // 🌟 手機端專用：Canvas 解析度修正與手電筒
     const initMobileFlashlight = () => {
       if (!canvas || !ctx) return;
       const rect = element.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+      const dpr = window.devicePixelRatio || 1; // 解決 Retina 螢幕模糊
+      
+      // 設定真實像素寬高
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      
+      // 用 CSS 限制顯示大小
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      
+      // 縮放 Context 確保繪製比例正確
+      ctx.scale(dpr, dpr);
+      
+      const width = rect.width;
+      const height = rect.height;
   
       const img = new Image();
       img.src = 'barca-bear.png';
       
       const drawMobileFlashlight = (x, y) => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, width, height);
         ctx.globalCompositeOperation = 'source-over';
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         
-        // 開啟擦除模式，把手電筒照到的地方擦掉
+        // 畫上巴薩熊 (用 cover 邏輯填滿)
+        const imgRatio = img.width / img.height;
+        const canvasRatio = width / height;
+        let drawWidth = width;
+        let drawHeight = height;
+        
+        if (imgRatio > canvasRatio) {
+          drawHeight = height;
+          drawWidth = height * imgRatio;
+        } else {
+          drawWidth = width;
+          drawHeight = width / imgRatio;
+        }
+        
+        const offsetX = (width - drawWidth) / 2;
+        const offsetY = (height - drawHeight) / 2;
+        
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        
+        // 擦除手電筒區域
         ctx.globalCompositeOperation = 'destination-out';
-        
-        // 繪製雷達光暈（大小可調，這裡設為 80px）
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, 80);
         gradient.addColorStop(0, 'rgba(0,0,0,1)');
         gradient.addColorStop(0.7, 'rgba(0,0,0,0.8)');
@@ -52,11 +81,9 @@ function initRevealHover(element) {
       };
   
       img.onload = () => {
-        // 預設在畫面中央顯示一個光暈，引導用戶觸摸
-        drawMobileFlashlight(canvas.width / 2, canvas.height / 2);
+        drawMobileFlashlight(width / 2, height / 2);
       };
   
-      // 手機觸控事件
       canvas.addEventListener('touchstart', (e) => {
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
@@ -75,12 +102,6 @@ function initRevealHover(element) {
         const y = touch.clientY - rect.top;
         drawMobileFlashlight(x, y);
       }, { passive: false });
-  
-      return () => {
-        // 清理事件監聽
-        canvas.removeEventListener('touchstart', () => {});
-        canvas.removeEventListener('touchmove', () => {});
-      };
     };
   
     const resetExperience = () => {
@@ -98,15 +119,30 @@ function initRevealHover(element) {
       element.style.setProperty("--reveal-x", "50%");
       element.style.setProperty("--reveal-y", "50%");
   
-      // 手機端重置時，把光暈回到中間
+      // 手機端重置
       if (!finePointer.matches) {
         if (ctx && canvas) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const rect = element.getBoundingClientRect();
+          ctx.clearRect(0, 0, rect.width, rect.height);
           const img = new Image();
           img.src = 'barca-bear.png';
           img.onload = () => {
             ctx.globalCompositeOperation = 'source-over';
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            // 重新畫一次填滿的巴薩熊
+            const imgRatio = img.width / img.height;
+            const canvasRatio = rect.width / rect.height;
+            let drawWidth = rect.width;
+            let drawHeight = rect.height;
+            if (imgRatio > canvasRatio) {
+              drawHeight = rect.height;
+              drawWidth = rect.height * imgRatio;
+            } else {
+              drawWidth = rect.width;
+              drawHeight = rect.width / imgRatio;
+            }
+            const offsetX = (rect.width - drawWidth) / 2;
+            const offsetY = (rect.height - drawHeight) / 2;
+            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
           };
         }
       }
