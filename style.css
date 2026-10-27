@@ -1,0 +1,283 @@
+/* ==========================================
+   1. 基礎與背景設定
+   ========================================== */
+   * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+  }
+  
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background-image: url('stadium-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    position: relative;
+    overflow: hidden;
+    padding: 40px 0 120px 0; 
+  }
+  
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 0%, rgba(5, 8, 15, 0.95) 80%);
+    z-index: 0; 
+    pointer-events: none;
+  }
+  
+  /* ==========================================
+     2. 頂部文字排版
+     ========================================== */
+  .header-text {
+    z-index: 2; 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+    text-align: center;
+    line-height: 1.8; 
+    padding: 0 1.5rem; 
+    margin-bottom: -20px; 
+    letter-spacing: 2px; 
+    color: #FFFFFF; 
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+    opacity: 0; 
+    transform: translateY(-10px); 
+    animation: fadeInDown 1s ease forwards;
+  }
+  
+  .header-text span {
+    display: block; 
+    font-size: 0.9rem; 
+    margin-top: 0.5rem; 
+    font-weight: 400;
+    letter-spacing: 1.5px; 
+    color: #C19A6B;
+  }
+  
+  .header-text.fade-out {
+    opacity: 0 !important;
+    transform: translateY(-20px) !important;
+    transition: opacity 1.2s ease, transform 1.2s ease !important;
+  }
+  
+  /* ==========================================
+     3. 底部文字排版
+     ========================================== */
+  .hint-container {
+    position: absolute;
+    bottom: 15px; 
+    left: 0;
+    width: 100%;
+    height: 80px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  .phase-1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%) translateY(10px);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  .phase-1.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  
+  .phase-1.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+  
+  .phase-2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%) translateY(15px); 
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .phase-2.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  
+  .phase-2 .line-1 {
+    font-size: 1rem;         
+    font-weight: 600;        
+    letter-spacing: 2px;
+    color: #FFFFFF;          
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); 
+  }
+  
+  /* 🌟 愛心微光：初始隱藏，等字幕出來後才浮現 */
+  .glow-heart {
+    display: inline-block;
+    margin-left: 4px;
+    opacity: 0;
+    transform: scale(0.5); 
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  
+  /* 當 .phase-2 加上 .show 時，觸發愛心淡入與微光 */
+  .phase-2.show .glow-heart {
+    opacity: 1;
+    transform: scale(1);
+    animation: heartPulse 2.5s ease-in-out infinite 1s; 
+  }
+  
+  /* ==========================================
+     4. 手電筒遮罩特效核心
+     ========================================== */
+  .reveal-hover {
+    --reveal-x: 50%;
+    --reveal-y: 50%;
+    --reveal-radius: 0px;
+  
+    position: relative;
+    isolation: isolate;
+    z-index: 2;
+    width: 90vw;
+    max-width: 450px;
+    aspect-ratio: 3 / 4;
+    
+    -webkit-mask-image: radial-gradient(ellipse at center, black 50%, transparent 85%);
+    mask-image: radial-gradient(ellipse at center, black 50%, transparent 85%);
+    
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    
+    animation: 
+      popIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards,
+      floating 6s ease-in-out infinite 1.2s;
+      
+    pointer-events: auto;
+  }
+  
+  .reveal-hover__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.03); 
+  }
+  
+  .reveal-hover__image--base {
+    position: relative;
+    z-index: 0;
+  }
+  
+  .reveal-hover__image--overlay {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    
+    -webkit-mask-image: radial-gradient(
+      circle var(--reveal-radius) at var(--reveal-x) var(--reveal-y),
+      rgb(0 0 0 / 1) 0%,
+      rgb(0 0 0 / 1) 70%,
+      rgb(0 0 0 / 0.5) 85%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle var(--reveal-radius) at var(--reveal-x) var(--reveal-y),
+      rgb(0 0 0 / 1) 0%,
+      rgb(0 0 0 / 1) 70%,
+      rgb(0 0 0 / 0.5) 85%,
+      transparent 100%
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    will-change: -webkit-mask-image, mask-image;
+  }
+  
+  @media (hover: none), (pointer: coarse) {
+    .reveal-hover__image--overlay {
+      display: none;
+    }
+  }
+  
+  /* ==========================================
+     5. 重置按鈕
+     ========================================== */
+  .reset-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    color: #86868b;
+    opacity: 0;
+    pointer-events: none; 
+    cursor: pointer;
+    transition: opacity 0.5s ease, color 0.3s ease, transform 0.3s ease;
+    transform: translateY(2px);
+  }
+  
+  .reset-btn.show {
+    opacity: 0.6; 
+    pointer-events: auto; 
+  }
+  
+  .reset-btn:hover {
+    opacity: 1;
+    color: #C19A6B;
+    transform: translateY(2px) scale(1.1);
+  }
+  
+  /* ==========================================
+     6. 動畫 Keyframes
+     ========================================== */
+  @keyframes fadeInDown { 
+    to { opacity: 1; transform: translateY(0); } 
+  }
+  
+  @keyframes popIn { 
+    to { opacity: 1; transform: translateY(0) scale(1); } 
+  }
+  
+  @keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); } 
+  }
+  
+  @keyframes heartPulse {
+    0%, 100% {
+      transform: scale(1);
+      text-shadow: 0 0 4px rgba(117, 170, 219, 0.3);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.15);
+      text-shadow: 0 0 12px rgba(193, 154, 107, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+      opacity: 1;
+    }
+  }
