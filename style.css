@@ -218,50 +218,61 @@ body::before {
 }
 
 /* ==========================================
-   🌟 手機端：完美還原比例版 (解除裁切限制)
+   🌟 手機端：完美比例 + 絕對不跳動版
    ========================================== */
 @media (max-width: 768px) {
   body {
-    /* 鎖定動態視窗高度，防跳動 */
+    /* 鎖定視窗高度 */
     min-height: 100dvh; 
-    /* 保持你喜歡的上下留白 */
+    /* 保持上下留白 */
     padding: 120px 0 80px 0; 
-    /* 從上往下排 */
-    justify-content: flex-start; 
     /* 禁止頁面滾動 */
     overflow: hidden; 
+    /* 讓標題從最上面開始排 */
+    justify-content: flex-start; 
+    align-items: center;
+    position: relative;
   }
 
   .header-text {
-    margin-top: 30px; 
+    margin-top: 0px; 
     flex-shrink: 0; 
+    /* 確保標題在最上層 */
+    position: relative;
+    z-index: 5;
   }
 
   .hint-container {
     margin-top: -20px; 
     flex-shrink: 0; 
+    /* 確保文字在最上層 */
+    position: relative;
+    z-index: 5;
   }
 
   .reveal-hover {
     width: 100vw; 
     max-width: 100vw; 
     
-    /* 🌟 關鍵 1：解除高度限制，讓它用 aspect-ratio 自然呈現原本的 3:4 完整比例 */
-    height: auto; 
-    max-height: none;
+    /* 🌟 關鍵 1：使用 aspect-ratio 維持完整比例，絕不切斷 */
     aspect-ratio: 3 / 4; 
+    height: auto; 
     
     border-radius: 0; 
     margin: 0; 
     flex-shrink: 0; 
+    
+    /* 🌟 關鍵 2：絕對定位，死死釘在畫面上，不管網址列怎麼縮放都不動 */
+    position: absolute;
+    top: 15vh; /* 控制熊距離頂部的位置，可以微調 15vh ~ 20vh */
+    left: 0;
   }
 
   .reveal-hover__image {
     width: 100vw;
     height: 100%;
     object-fit: cover;
-    
-    /* 🌟 關鍵 2：改回置中對齊，讓完整的熊顯示在畫面正中央 */
+    /* 置中顯示，保證完整 */
     object-position: center; 
   }
 }
