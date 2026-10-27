@@ -218,17 +218,22 @@ body::before {
 }
 
 /* ==========================================
-   🌟 手機端專用微調：整組往下推
+   🌟 手機端專用微調
    ========================================== */
 @media (max-width: 768px) {
   body {
-    /* 整組往下推，你可以改大這個數字 */
+    /* 整組往下推 */
     padding-top: 120px; 
   }
 
+  /* 🌟 手機端標題單獨微調 (加在這裡) */
+  .header-text {
+    margin-top: 30px; /* 數字越大標題越往下 */
+  }
+
   .hint-container {
-    /* 控制文字離熊底部的距離 */
-    margin-top: 0px; 
+    /* 控制底部文字距離 */
+    margin-top: -10px; /* 你可以改成 0px, -10px 或 -30px 來微調底部文字 */
   }
 
   .reveal-hover {
@@ -238,7 +243,6 @@ body::before {
     margin: 0; 
   }
 
-  /* 解決 object-fit 導致的縮放留白，強制填滿 */
   .reveal-hover__image {
     width: 100vw;
     height: 100%;
