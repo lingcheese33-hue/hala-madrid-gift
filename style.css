@@ -217,36 +217,36 @@
     50% { transform: translateY(-4px); } 
   }
   
-  /* ==========================================
-     🌟 手機端專用微調
-     ========================================== */
-  @media (max-width: 768px) {
-    body {
-      /* 整組往下推 */
-      padding-top: 20px; 
-    }
-  
-    /* 🌟 手機端標題單獨微調 (加在這裡) */
-    .header-text {
-      margin-top: 40px; /* 數字越大標題越往下 */
-    }
-  
-    .hint-container {
-      /* 控制底部文字距離 */
-      margin-top: -10px; /* 你可以改成 0px, -10px 或 -30px 來微調底部文字 */
-    }
-  
-    .reveal-hover {
-      width: 100vw; 
-      max-width: 100vw; 
-      border-radius: 0; 
-      margin: 0; 
-    }
-  
-    .reveal-hover__image {
-      width: 100vw;
-      height: 100%;
-      object-fit: cover;
-      object-position: center; 
-    }
+ /* ==========================================
+   🌟 手機端專用微調
+   ========================================== */
+@media (max-width: 768px) {
+  body {
+    /* 稍微留一點頂部空間，避免太貼近瀏海 */
+    padding-top: 40px; 
   }
+
+  .header-text {
+    /* 讓標題跟熊保持一點距離 */
+    margin-top: 10px; 
+  }
+
+  .hint-container {
+    /* 控制底部文字距離，稍微拉近一點 */
+    margin-top: -20px; 
+  }
+
+  .reveal-hover {
+    width: 100vw; 
+    max-width: 100vw; 
+    border-radius: 0; 
+    margin: 0; 
+  }
+
+  .reveal-hover__image {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; 
+  }
+}
