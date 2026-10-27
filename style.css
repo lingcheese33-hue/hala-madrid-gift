@@ -218,41 +218,45 @@ body::before {
 }
 
 /* ==========================================
-   🌟 手機端專用微調：還原大熊、鎖死位置
+   🌟 手機端終極鎖死版：徹底解決往下跑的問題
    ========================================== */
 @media (max-width: 768px) {
   body {
-    /* 使用 100dvh 防止網址列伸縮導致的跳動 */
+    /* 鎖定真實視窗高度，防止網址列縮放導致的跳動 */
     min-height: 100dvh; 
     
-    /* 維持你原本覺得好看的上下留白 */
+    /* 固定版面從最上方開始排，不要置中 */
+    justify-content: flex-start; 
+    
+    /* 保持你滿意的留白 */
     padding: 120px 0 80px 0; 
     
-    /* 讓它從上往下排，不要把東西擠在中間 */
-    justify-content: flex-start; 
+    /* 絕對禁止頁面滾動，防止任何位移 */
+    overflow: hidden; 
   }
 
   .header-text {
-    margin-top: 30px; /* 保持標題的位置 */
-    flex-shrink: 0;   /* 不准被壓縮 */
+    margin-top: 30px; 
+    flex-shrink: 0; 
   }
 
   .hint-container {
-    margin-top: -20px; /* 保持文字與熊的距離 */
-    flex-shrink: 0;    /* 不准被壓縮 */
+    margin-top: -20px; 
+    flex-shrink: 0; 
   }
 
   .reveal-hover {
     width: 100vw; 
     max-width: 100vw; 
     
-    /* 🌟 關鍵：移除所有高度限制！讓它自然展現原本的 3:4 大圖 */
-    max-height: none; 
+    /* 🌟 關鍵 1：直接寫死高度，不讓它用 aspect-ratio 去算 */
+    height: 60dvh; 
+    max-height: 60dvh;
     
     border-radius: 0; 
     margin: 0; 
     
-    /* 🌟 關鍵：加上 flex-shrink: 0，強迫瀏覽器不准把熊縮小 */
+    /* 🌟 關鍵 2：強制不准壓縮 */
     flex-shrink: 0; 
   }
 
@@ -260,6 +264,8 @@ body::before {
     width: 100vw;
     height: 100%;
     object-fit: cover;
-    object-position: center; 
+    
+    /* 🌟 關鍵 3：把對齊點鎖在頂部，保證熊頭永遠在上面 */
+    object-position: top center; 
   }
 }
