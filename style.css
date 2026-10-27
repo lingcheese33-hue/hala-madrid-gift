@@ -228,7 +228,7 @@ body::before {
 
   /* 🌟 手機端標題單獨微調 (加在這裡) */
   .header-text {
-    margin-top: 20px; /* 數字越大標題越往下 */
+    margin-top: 30px; /* 數字越大標題越往下 */
   }
 
   .hint-container {
