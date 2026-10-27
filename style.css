@@ -112,19 +112,35 @@
   }
   
 /* ==========================================
-   🌟 手機端專用微調：放大熊、貼合螢幕、拉近文字
+   🌟 手機端專用微調：完美貼合、拉近文字
    ========================================== */
 @media (max-width: 768px) {
-  /* 1. 解決文字距離：把文字大幅往上提，靠近熊的底部 */
-  .hint-container {
-    bottom: 130px; /* 從 80px 改成 130px，數字越大越靠近熊 */
+  /* 1. 解除 body 的限制，讓熊可以貼邊 */
+  body {
+    padding: 0 0 80px 0; /* 左右 padding 設為 0 */
   }
 
-  /* 2. 熊放大並貼合兩側螢幕 */
+  /* 2. 文字位置微調 */
+  .hint-container {
+    bottom: 120px; /* 讓文字靠近熊的底部 */
+  }
+
+  /* 3. 熊放大並完美貼合兩側 */
   .reveal-hover {
-    width: 100vw; /* 寬度直接拉滿 100% 視窗寬度 */
-    max-width: none; /* 解除原本 450px 的限制 */
-    border-radius: 0; /* 確保邊緣不會有圓角裁切 */
+    width: 100vw; 
+    max-width: 100vw; 
+    border-radius: 0; 
+    /* 確保寬度絕對佔滿 */
+    margin: 0; 
+  }
+
+  /* 4. 解決 object-fit 導致的縮放留白，強制填滿 */
+  .reveal-hover__image {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    /* 因為你的圖是 3:4，手機是長條形，使用 center 裁切可以保留中間的熊頭與身體 */
+    object-position: center; 
   }
 }
   
