@@ -201,13 +201,51 @@
     50% { transform: translateY(-4px); } 
   }
   
-  @media (max-width: 768px) {
-    body { padding-top: 100px; }
-    .header-text { margin-top: 40px; }
-    .hint-container { margin-top: -10px; }
-    .reveal-hover { width: 100vw; max-width: 100vw; border-radius: 0; margin: 0; }
-    .reveal-hover__image { width: 100vw; height: 100%; object-fit: cover; object-position: center; }
+  /* ==========================================
+   🌟 手機端專用微調：絕對鎖死，防止網址列造成位移
+   ========================================== */
+@media (max-width: 768px) {
+  body {
+    /* 使用 100dvh 鎖定真實高度，防止網址列伸縮 */
+    min-height: 100dvh; 
+    
+    /* 這裡的數值可以微調整體位置，目前設定跟電腦端一樣有上方留白 */
+    padding-top: 60px; 
+    
+    /* 絕對禁止頁面滑動，鎖死版面 */
+    overflow: hidden; 
   }
+
+  .header-text {
+    margin-top: 10px; 
+    flex-shrink: 0; 
+  }
+
+  .reveal-hover {
+    width: 100vw; 
+    max-width: 100vw; 
+    border-radius: 0; 
+    margin: 0; 
+    
+    /* 🌟 關鍵：強制佔據 55% 的視窗高度，且不准瀏覽器縮放 */
+    height: 55dvh;
+    flex-shrink: 0; 
+  }
+
+  .reveal-hover__image {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    /* 讓熊對齊頂部，確保頭部完整且與文字距離固定 */
+    object-position: center top; 
+  }
+
+  .hint-container {
+    /* 保持與熊貼近，不讓它因為高度計算而跑掉 */
+    margin-top: -10px; 
+    flex-shrink: 0; 
+  }
+}
   
   /* ==========================================
      🌟 核心誓言 Modal (完全透明背景，不遮擋煙花)
