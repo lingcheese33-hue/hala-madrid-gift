@@ -202,20 +202,23 @@
   }
   
   /* ==========================================
-   🌟 手機端專用微調：還原完整熊、絕對防跳動
+   🌟 手機端：絕對完整不截斷 + 文字完美貼合
    ========================================== */
 @media (max-width: 768px) {
   body {
-    /* 鎖定真實高度，防止網址列伸縮 */
     min-height: 100dvh; 
-    /* 調整上下留白 */
-    padding-top: 80px; 
-    /* 禁止頁面滑動 */
+    /* 從上往下排 */
+    justify-content: flex-start; 
+    /* 禁止滑動防止網址列干擾 */
     overflow: hidden; 
+    
+    /* 🌟 關鍵：把頂部留白縮小，讓熊可以完整放進去 */
+    padding: 30px 0 0 0; 
   }
 
   .header-text {
     margin-top: 20px; 
+    margin-bottom: 10px;
     flex-shrink: 0; 
   }
 
@@ -225,11 +228,15 @@
     border-radius: 0; 
     margin: 0; 
     
-    /* 🌟 關鍵 1：拿掉 height 限制，用 aspect-ratio 維持完整的 3:4 比例 */
+    /* 🌟 關鍵 1：移除寫死的高度，改用 aspect-ratio 維持完整比例 */
     height: auto; 
     aspect-ratio: 3 / 4;
     
+    /* 確保它跟隨文字，不會自己亂跑 */
     flex-shrink: 0; 
+    
+    /* 移除原本的 60dvh 限制 */
+    max-height: none;
   }
 
   .reveal-hover__image {
@@ -237,11 +244,12 @@
     height: 100%;
     object-fit: cover;
     
-    /* 🌟 關鍵 2：改回置中對齊，讓完整的熊顯示在框框裡 */
+    /* 🌟 關鍵 2：改回 center，保證完整顯示 */
     object-position: center; 
   }
 
   .hint-container {
+    /* 🌟 關鍵 3：正常貼合在熊下方 */
     margin-top: -10px; 
     flex-shrink: 0; 
   }
