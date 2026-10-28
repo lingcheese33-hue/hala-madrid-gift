@@ -202,22 +202,20 @@
   }
   
   /* ==========================================
-   🌟 手機端專用微調：絕對鎖死，防止網址列造成位移
+   🌟 手機端專用微調：還原完整熊、絕對防跳動
    ========================================== */
 @media (max-width: 768px) {
   body {
-    /* 使用 100dvh 鎖定真實高度，防止網址列伸縮 */
+    /* 鎖定真實高度，防止網址列伸縮 */
     min-height: 100dvh; 
-    
-    /* 這裡的數值可以微調整體位置，目前設定跟電腦端一樣有上方留白 */
-    padding-top: 60px; 
-    
-    /* 絕對禁止頁面滑動，鎖死版面 */
+    /* 調整上下留白 */
+    padding-top: 80px; 
+    /* 禁止頁面滑動 */
     overflow: hidden; 
   }
 
   .header-text {
-    margin-top: 10px; 
+    margin-top: 20px; 
     flex-shrink: 0; 
   }
 
@@ -227,8 +225,10 @@
     border-radius: 0; 
     margin: 0; 
     
-    /* 🌟 關鍵：強制佔據 55% 的視窗高度，且不准瀏覽器縮放 */
-    height: 55dvh;
+    /* 🌟 關鍵 1：拿掉 height 限制，用 aspect-ratio 維持完整的 3:4 比例 */
+    height: auto; 
+    aspect-ratio: 3 / 4;
+    
     flex-shrink: 0; 
   }
 
@@ -236,12 +236,12 @@
     width: 100vw;
     height: 100%;
     object-fit: cover;
-    /* 讓熊對齊頂部，確保頭部完整且與文字距離固定 */
-    object-position: center top; 
+    
+    /* 🌟 關鍵 2：改回置中對齊，讓完整的熊顯示在框框裡 */
+    object-position: center; 
   }
 
   .hint-container {
-    /* 保持與熊貼近，不讓它因為高度計算而跑掉 */
     margin-top: -10px; 
     flex-shrink: 0; 
   }
